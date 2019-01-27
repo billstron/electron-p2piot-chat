@@ -4,7 +4,7 @@
     <input type="text" v-model="uid"/>
     <button v-on:click="setUid">Set UID</button>
     <textarea class="certificate" v-model="certificate" />
-    <button v-on:click="setCertificate">Set Cert</button>
+    <button v-on:click="setPrivateKey">Set Cert</button>
   </div>
 </template>
 

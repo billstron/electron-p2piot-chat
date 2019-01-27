@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-const electron = window.require('electron');
+import electron from 'electron';
 
 export default function(opts = {}, defaults = {}) {
   const { fname = 'config.json' } = opts;
