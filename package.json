@@ -11,6 +11,7 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "node-rsa": "^1.0.3",
     "vue": "^2.5.21",
     "vue-router": "^3.0.1"
   },
