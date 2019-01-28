@@ -1,18 +1,42 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <FriendList v-bind:select="select"/>
+    <Messages v-bind:uid="uid"/>
   </div>
 </template>
 
+<style lang="scss">
+div.home {
+  float: left;
+
+  FriendList {
+    float: left,
+  }
+
+  div.messages {
+
+  }
+}
+</style>
+
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import FriendList from './FriendList'
+import Messages from './Messages'
 
 export default {
   name: 'home',
   components: {
-    HelloWorld
+    FriendList,
+    Messages,
+  },
+  data: () => ({
+    uid: null,
+  }),
+  methods: {
+    select(uid) {
+      this.uid = uid;
+    }
   }
 }
 </script>
