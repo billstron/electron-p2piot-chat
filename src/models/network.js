@@ -24,7 +24,7 @@ function factory() {
           case '/ping':
             return response(200, { msg: 'pong' });
           case '/message':
-            this.emit('message', uid, body);
+            self.emit('message', uid, body);
             return response(200, { msg: 'received' });
           default:
             return response(404, { msg: 'not found' });

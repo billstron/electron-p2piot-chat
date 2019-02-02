@@ -7,10 +7,11 @@
           v-for="message in messages"
           :key="message.id"
         >
+          {{ message.text }}
         </li>
       </ul>
     </div>
-    <div class="message--controls">
+    <div class="message--controls" v-if="uid">
       <textarea class="to-send" v-model="toSend" />
       <button v-on:click="sendMessage">Send</button>
     </div>
@@ -52,27 +53,27 @@ export default {
   props: [
     'uid',
   ],
-  watch: {
-    uid: (newVal) => {
-      const list = messages.list.filter(({ uid }) => uid === newVal);
-      this.messages = list;
-    }
-  },
   data: () => ({
-    messages: [],
     toSend: '',
+    allMessages: messages.list,
   }),
+  computed: {
+    messages: function () {
+      return this.allMessages.filter(({ uid }) => this.uid === uid);
+    },
+  },
   methods: {
     sendMessage() {
       messages.send(this.uid, this.toSend);
       this.toSend = '';
+      this.allMessages = messages.list;
     },
   },
   created() {
     const vm = this;
     messages.on('incoming', () => {
-      vm.$emit('update:messages')
-    })
+      vm.allMessages = messages.list;
+    });
   }
 }
 </script>

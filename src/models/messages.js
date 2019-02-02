@@ -34,7 +34,7 @@ function Factory() {
   network.on('message', (uid, body) => {
     list.push({ uid, direction: 'incoming', text: body.text, received: true, time: (new Date()).toISOString() });
     storage.set('messages', list);
-    this.emit('incoming');
+    self.emit('incoming');
   });
 
   return Object.assign(self, EventEmitter.prototype);
