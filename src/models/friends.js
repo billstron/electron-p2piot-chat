@@ -1,6 +1,8 @@
-import persistent from './persistent.js';
+import Persistent from './persistent';
+import Network from './network';
 
-const storage = persistent();
+const storage = Persistent();
+const network = Network();
 
 let friends = null;
 
@@ -18,6 +20,7 @@ function Factory() {
     add({ uid, publicKey }) {
       list.push({ uid, publicKey });
       storage.set('friends', list);
+      network.addFriend(uid, publicKey);
       return self;
     },
 
@@ -28,6 +31,7 @@ function Factory() {
       }
       list.spice(item.indexOf(item), 1);
       storage.set('friends', list);
+      network.removeFriend(uid);
       return self;
     }
   };

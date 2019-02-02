@@ -1,14 +1,15 @@
-import persistent from './persistent.js';
+import Persistent from './persistent.js';
+import Network from './network';
 import RSA from 'node-rsa';
-
-const storage = persistent();
-let credentials = null;
 
 function Factory() {
 
+  const storage = Persistent();
+  const network = Network();
+
   const store = {
-    uid: storage.get('uid') || '',
-    certificate: storage.get('certificate') || '',
+    uid: null,
+    certificate: null,
     publicKey: null,
   };
 
@@ -20,7 +21,6 @@ function Factory() {
       store.publicKey = '';
     }
   }
-  setPublicKey();
 
   const self = {
     get uid() {
@@ -29,6 +29,9 @@ function Factory() {
     set uid(uid) {
       storage.set('uid', uid);
       store.uid = uid;
+      if (store.certificate) {
+        network.setSelf(store.uid, store.certificate);
+      }
     },
     get certificate() {
       return store.certificate;
@@ -37,6 +40,9 @@ function Factory() {
       storage.set('certificate', cert);
       store.certificate = cert;
       setPublicKey();
+      if (store.uid) {
+        network.setSelf(store.uid, store.certificate);
+      }
     },
     get publicKey() {
       return store.publicKey;
@@ -45,8 +51,14 @@ function Factory() {
       throw new Error('not allowed');
     }
   };
+
+  self.uid = storage.get('uid') || '';
+  self.certificate = storage.get('certificate') || '';
+  setPublicKey();
   return self;
 }
+
+let credentials = null;
 
 export default function() {
   if (credentials === null) {
