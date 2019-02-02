@@ -1,7 +1,5 @@
-import p2piot from 'node-p2piot';
+import p2piot from 'p2piot';
 import EventEmitter from 'events'
-
-const { client } = p2piot;
 
 function factory() {
   const self = {
@@ -49,7 +47,7 @@ function factory() {
         privateKey,
       };
 
-      this.net = client(uid, opts);
+      this.net = p2piot(uid, opts);
       this.setup();
     },
 

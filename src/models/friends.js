@@ -1,13 +1,14 @@
 import Persistent from './persistent';
 import Network from './network';
 
-const storage = Persistent();
-const network = Network();
-
-let friends = null;
-
 function Factory() {
+  const storage = Persistent();
+  const network = Network();
+
   const list = storage.get('friends') || [];
+  list.forEach(({ uid, publicKey }) => {
+    network.addFriend(uid, publicKey);
+  })
 
   const self = {
     get list() {
@@ -39,6 +40,7 @@ function Factory() {
   return self;
 }
 
+let friends = null;
 export default function() {
   if (friends === null) {
     friends = Factory();
