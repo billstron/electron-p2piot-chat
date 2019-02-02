@@ -19,6 +19,7 @@
 <style lang="scss">
 div.friends {
   float: left;
+  width: 20%;
   div.friends--controls {
     width: 100%;
   }

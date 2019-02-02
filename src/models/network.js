@@ -1,5 +1,5 @@
 import p2piot from 'p2piot';
-import EventEmitter from 'events'
+import EventEmitter from 'events';
 
 function factory() {
   const self = {

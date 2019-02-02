@@ -8,6 +8,7 @@
 <style lang="scss">
 div.home {
   float: left;
+  width: 100%;
 
   FriendList {
     float: left,
