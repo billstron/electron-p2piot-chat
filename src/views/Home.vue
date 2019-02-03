@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <friend-list id="friends" v-bind:select="select"/>
-    <messages id="messages" v-bind:uid="uid"/>
+    <messages id="messages" v-bind:friend="friend"/>
   </div>
 </template>
 
@@ -34,11 +34,11 @@ export default {
     Messages,
   },
   data: () => ({
-    uid: null,
+    friend: null,
   }),
   methods: {
-    select(uid) {
-      this.uid = uid;
+    select(friend) {
+      this.friend = friend;
     }
   }
 }

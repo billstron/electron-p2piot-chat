@@ -11,8 +11,8 @@
           :key="friend.uid"
         >
           <a
-            v-on:click="selectFriend(friend.uid)"
-            v-bind:class="classObject(friend.uid)"
+            v-on:click="selectFriend(friend)"
+            v-bind:class="classObject(friend)"
           >
             <span class="online-indicator" v-bind:class="[friend.online ? 'online' : 'offline']"/>
             {{ friend.uid }}
@@ -129,14 +129,14 @@ export default {
     addFriend() {
       this.$router.push('/add-friend');
     },
-    selectFriend(uid) {
-      this.select(uid);
-      this.selected = uid;
-      store.set('friend-list.selected', uid);
+    selectFriend(friend) {
+      this.select(friend);
+      this.selected = friend.uid;
+      store.set('friend-list.selected', this.selected);
     },
-    classObject(uid) {
+    classObject(friend) {
       return {
-        active: uid === this.selected,
+        active: friend.uid === this.selected,
       };
     },
   },
@@ -144,10 +144,13 @@ export default {
     const vm = this;
     this.friends = friends.list;
     let uid = store.get('friend-list.selected');
+    let friend;
     if (!uid && this.friends.length > 0) {
-      uid = this.friends[0].uid;
+      friend = this.friends[0];
+    } else {
+      friend = this.friends.find(friend => friend.uid === uid);
     }
-    this.selectFriend(uid);
+    this.selectFriend(friend);
     friends.on('updated', () => {
       vm.friends = friends.list;
     });

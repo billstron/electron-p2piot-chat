@@ -1,7 +1,8 @@
 <template>
   <div class="messages">
     <div class="messages--header">
-      <h3>Messages</h3>
+      <span class="online-indicator" v-bind:class="[friend.online ? 'online' : 'offline']"/>
+      {{ friend.uid }}
     </div>
     <div class="messages--list" ref="messageList">
       <ul>
@@ -14,7 +15,7 @@
         </li>
       </ul>
     </div>
-    <div class="messages--controls" v-if="uid">
+    <div class="messages--controls" v-if="friend">
       <textarea
         ref="toSend"
         class="to-send"
@@ -35,10 +36,25 @@ div.messages {
                         "messagesControls";
 
   div.messages--header {
+    padding: 10px 5px 5px 20px;
     grid-area: messagesHeader;
-    h3 {
-      text-align: left;
-      margin: 5px 20px;
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+
+    .online-indicator {
+      display: inline-block;
+      border: 1px solid #2c3e50;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 3px;
+      line-height: 18px;
+
+      &.online {
+        background-color: #2bac76;
+        border-color: #2bac76;
+      }
     }
   }
 
@@ -107,7 +123,7 @@ const messages = Factory();
 export default {
   name: 'messaage-list',
   props: [
-    'uid',
+    'friend',
   ],
   data: () => ({
     toSend: '',
@@ -115,11 +131,14 @@ export default {
   }),
   computed: {
     messages: function () {
-      return this.allMessages.filter(({ uid }) => this.uid === uid);
+      if (this.friend) {
+        return this.allMessages.filter(({ uid }) => this.friend.uid === uid);
+      }
+      return [];
     },
   },
   watch: {
-    uid: function() {
+    friend: function() {
       const vm = this;
       setTimeout(() => {
         const container = vm.$refs.messageList;
@@ -131,7 +150,7 @@ export default {
     sendMessage() {
       const vm = this;
       if (this.toSend.length > 0) {
-        messages.send(this.uid, this.toSend);
+        messages.send(this.friend.uid, this.toSend);
         this.toSend = '';
         this.allMessages = messages.list;
         this.$refs.toSend.focus();
