@@ -1,7 +1,7 @@
 <template>
   <div class="friends">
     <div id="friends--header">
-      <h3>Friends</h3>
+      <h3>Contacts</h3>
     </div>
     <div id="friends--list">
 
@@ -14,6 +14,7 @@
             v-on:click="selectFriend(friend.uid)"
             v-bind:class="classObject(friend.uid)"
           >
+            <span class="online-indicator" v-bind:class="[friend.online ? 'online' : 'offline']"/>
             {{ friend.uid }}
           </a>
         </li>
@@ -71,10 +72,33 @@ div.friends {
         }
         a:hover {
           background-color: #f0f0f0;
+
         }
         a.active {
           background-color: #4a94f4;
           color: white;
+
+          .online-indicator {
+            border-color: white;
+
+            &.online {
+              background-color: white;
+            }
+          }
+        }
+
+        .online-indicator {
+          display: inline-block;
+          border: 1px solid #2c3e50;
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          margin-right: 3px;
+
+          &.online {
+            background-color: #2bac76;
+            border-color: #2bac76;
+          }
         }
       }
     }
@@ -88,8 +112,9 @@ div.friends {
 
 <script>
 import Friends from '../models/friends';
+import Persistent from '../models/persistent';
 const friends = Friends();
-// @ is an alias to /src
+const store = Persistent();
 
 export default {
   name: 'friend-list',
@@ -107,6 +132,7 @@ export default {
     selectFriend(uid) {
       this.select(uid);
       this.selected = uid;
+      store.set('friend-list.selected', uid);
     },
     classObject(uid) {
       return {
@@ -115,7 +141,16 @@ export default {
     },
   },
   created() {
+    const vm = this;
     this.friends = friends.list;
+    let uid = store.get('friend-list.selected');
+    if (!uid && this.friends.length > 0) {
+      uid = this.friends[0].uid;
+    }
+    this.selectFriend(uid);
+    friends.on('updated', () => {
+      vm.friends = friends.list;
+    });
   }
 }
 </script>

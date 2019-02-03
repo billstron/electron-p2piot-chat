@@ -1,3 +1,4 @@
+import EventEmitter from 'events';
 import Persistent from './persistent';
 import Network from './network';
 
@@ -6,9 +7,16 @@ function Factory() {
   const network = Network();
 
   const list = storage.get('friends') || [];
-  list.forEach(({ uid, publicKey }) => {
-    network.addFriend(uid, publicKey);
-  })
+  list.forEach((friend) => {
+    network.addFriend(friend.uid, friend.publicKey);
+    friend.online = false;
+  });
+
+  network.on('online', (uid, status) => {
+    const friend = list.find(friend => friend.uid === uid);
+    friend.online = status;
+    self.emit('updated');
+  });
 
   const self = {
     get list() {
@@ -22,6 +30,7 @@ function Factory() {
       list.push({ uid, publicKey });
       storage.set('friends', list);
       network.addFriend(uid, publicKey);
+      this.emit('updated');
       return self;
     },
 
@@ -33,11 +42,12 @@ function Factory() {
       list.spice(item.indexOf(item), 1);
       storage.set('friends', list);
       network.removeFriend(uid);
+      this.emit('updated');
       return self;
     }
   };
 
-  return self;
+  return Object.assign(self, EventEmitter.prototype);
 }
 
 let friends = null;

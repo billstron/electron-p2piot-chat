@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "events": "^3.0.0",
-    "p2piot": "git+ssh://git@github.com:billstron/node-p2piot.git#master",
     "node-rsa": "^1.0.3",
+    "p2piot": "git+ssh://git@github.com/billstron/node-p2piot.git#master",
     "vue": "^2.5.21",
     "vue-router": "^3.0.1"
   },
