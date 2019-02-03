@@ -1,21 +1,23 @@
 <template>
   <div class="home">
-    <FriendList v-bind:select="select"/>
-    <Messages v-bind:uid="uid"/>
+    <friend-list id="friends" v-bind:select="select"/>
+    <messages id="messages" v-bind:uid="uid"/>
   </div>
 </template>
 
 <style lang="scss">
 div.home {
-  float: left;
-  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 100%;
+  grid-template-areas: "friends messages";
 
-  FriendList {
-    float: left,
+  #friends {
+    grid-area: friends;
   }
 
-  div.messages {
-
+  #messages {
+    grid-area: messages;
   }
 }
 </style>
