@@ -1,11 +1,14 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow } from 'electron';
 import {
   createProtocol,
   installVueDevtools
-} from 'vue-cli-plugin-electron-builder/lib'
-const isDevelopment = process.env.NODE_ENV !== 'production'
+} from 'vue-cli-plugin-electron-builder/lib';
+import Persistent from './models/persistent.js';
+
+const storage = Persistent();
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -15,7 +18,8 @@ let win
 protocol.registerStandardSchemes(['app'], { secure: true })
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({ width: 800, height: 600 })
+  let opts = storage.get('window.opts') || { width: 800, height: 600 };
+  win = new BrowserWindow(opts);
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -29,7 +33,23 @@ function createWindow () {
 
   win.on('closed', () => {
     win = null
-  })
+  });
+
+  win.on('resize', () => {
+    const [width, height] = win.getSize();
+    opts.width = width;
+    opts.height = height;
+  });
+
+  win.on('move', () => {
+    const [x, y] = win.getPosition();
+    opts.x = x;
+    opts.y = y;
+  });
+
+  setInterval(() => {
+    storage.set('window.opts', opts);
+  }, 1000);
 }
 
 // Quit when all windows are closed.
