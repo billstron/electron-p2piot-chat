@@ -11,6 +11,9 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.14",
+    "@fortawesome/free-solid-svg-icons": "^5.7.1",
+    "@fortawesome/vue-fontawesome": "^0.1.5",
     "events": "^3.0.0",
     "node-rsa": "^1.0.3",
     "p2piot": "git+ssh://git@github.com/billstron/node-p2piot.git#master",

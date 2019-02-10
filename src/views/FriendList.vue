@@ -21,7 +21,15 @@
       </ul>
     </div>
     <div id="friends--controls">
-      <button v-on:click="addFriend">Add Friend</button>
+      <a class="button" v-on:click="showProfile">
+        <font-awesome-icon icon="cog" />
+      </a>
+      <a class="button" v-on:click="addFriend">
+        <font-awesome-icon icon="user-plus" />
+      </a>
+      <a class="button" v-on:click="showAbout">
+        <font-awesome-icon icon="info" />
+      </a>
     </div>
   </div>
 </template>
@@ -72,7 +80,6 @@ div.friends {
         }
         a:hover {
           background-color: #f0f0f0;
-
         }
         a.active {
           background-color: #4a94f4;
@@ -106,6 +113,22 @@ div.friends {
 
   #friends--controls {
     grid-area: friendsActions;
+    text-align: left;
+    background-color: #f0f0f0;
+
+    a.button {
+      display: inline-block;
+      color: #2c3e50;
+      padding: 7px 0;
+      font-size: 24px;
+      width: 33.33%;
+      text-align: center;
+
+      &:hover {
+        color: white;
+        background-color: #4a94f4;
+      }
+    }
   }
 }
 </style>
@@ -128,6 +151,12 @@ export default {
   methods: {
     addFriend() {
       this.$router.push('/add-friend');
+    },
+    showProfile() {
+      this.$router.push('/profile');
+    },
+    showAbout() {
+      this.$router.push('/about');
     },
     selectFriend(friend) {
       this.select(friend);

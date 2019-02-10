@@ -1,7 +1,7 @@
 <template>
   <div class="messages">
-    <div class="messages--header">
-      <span class="online-indicator" v-bind:class="[friend.online ? 'online' : 'offline']"/>
+    <div class="messages--header" v-if="friend">
+      <span class="online-indicator" v-bind:class="[(friend.online) ? 'online' : 'offline']"/>
       {{ friend.uid }}
     </div>
     <div class="messages--list" ref="messageList">

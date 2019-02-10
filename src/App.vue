@@ -1,10 +1,5 @@
 <template>
   <div id="app">
-    <div id="header">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/profile">Profile</router-link>
-    </div>
     <router-view id="main"/>
   </div>
 </template>

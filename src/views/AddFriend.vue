@@ -1,13 +1,16 @@
 <template>
-  <div class="add-friend">
-    <h1>Add Friend</h1>
+  <sub-page
+    class="add-friend"
+    backLink="/"
+    title="Add Friend"
+  >
     <h2>UID</h2>
     <input type="text" v-model="uid"/>
     <h2>Public Key</h2>
     <textarea class="public-key" v-model="publicKey"></textarea>
     <button v-on:click="addFriend">Add Friend</button>
     <button v-on:click="cancel">Cancel</button>
-  </div>
+  </sub-page>
 </template>
 
 <style lang="scss">

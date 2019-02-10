@@ -1,5 +1,9 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <sub-page
+    class="about"
+    back-link="/"
+    title="About"
+  >
+    <h2>This is an about page</h2>
+  </sub-page>
 </template>

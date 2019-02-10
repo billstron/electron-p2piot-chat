@@ -1,6 +1,9 @@
 <template>
-  <div class="profile">
-    <h1>My Profile</h1>
+  <sub-page
+    class="profile"
+    backLink="/"
+    title="My Profile"
+  >
     <h2>UID</h2>
     <input type="text" v-model="uid"/>
     <button v-on:click="setUid">Set UID</button>
@@ -9,7 +12,7 @@
     <h2>Certificate (keep secret)</h2>
     <textarea class="certificate" v-model="certificate" />
     <button v-on:click="setCertificate">Set Cert</button>
-  </div>
+  </sub-page>
 </template>
 
 <style lang="scss">
@@ -45,7 +48,6 @@ div.profile {
     }
   }
 }
-
 </style>
 
 <script>
