@@ -39,7 +39,7 @@ function factory() {
     setSelf(uid, privateKey) {
 
       const opts = {
-        locationServer: 'http://34.238.60.160:3000',
+        locationServer: 'https://pdns.billstron.com',
         stunServer: {
           host: 'stun1.l.google.com',
           port: 19302,
